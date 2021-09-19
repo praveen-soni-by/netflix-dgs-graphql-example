@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -20,5 +21,6 @@ public class BookDO {
     private String genre;
     private String publisher;
     private LocalDate publishDate;
+    private LocalDateTime createdTime;
 
 }

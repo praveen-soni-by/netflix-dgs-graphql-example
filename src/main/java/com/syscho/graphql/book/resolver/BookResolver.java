@@ -23,15 +23,11 @@ import java.util.stream.Collectors;
 @DgsComponent
 @RequiredArgsConstructor
 @Slf4j
-
 public class BookResolver {
-
     private final BookRepository bookRepository;
     private final JdbcTemplate jdbcTemplate;
 
-
     @DgsData(parentType = "QueryResolver", field = "books")
-
     public List<BookVO> getBooks(DataFetchingEnvironment environment) {
         String query = "SELECT " + extractSelectedFields(environment) + " FROM BOOK ";
         log.info("query : {}", query);
@@ -50,15 +46,6 @@ public class BookResolver {
         }
     }
 
-    private String prepareQueryById(DataFetchingEnvironment environment) {
-        return "SELECT " + extractSelectedFields(environment) + " FROM BOOK WHERE ID = ? ";
-    }
-
-    private String extractSelectedFields(DataFetchingEnvironment env) {
-        return env.getSelectionSet().getImmediateFields().stream().map(selectedField ->
-                selectedField.getName()).collect(Collectors.joining(","));
-    }
-
     @DgsData(parentType = "MutationResolver", field = "addBook")
     public BookVO addBook(@InputArgument("request") BookVO bookVO) {
         BookDO bookDO = new BookDO();
@@ -66,6 +53,11 @@ public class BookResolver {
         BeanUtils.copyProperties(bookVO, bookDO);
         bookRepository.save(bookDO);
         return bookVO;
+    }
+
+    @DgsData(parentType = "MutationResolver", field = "deleteBook")
+    public void delete(@InputArgument("id") String id) {
+        jdbcTemplate.update("DELETE FROM  BOOK WHERE ID = ? ", id);
     }
 
     @DgsData(parentType = "MutationResolver", field = "updateBook")
@@ -83,4 +75,12 @@ public class BookResolver {
         return jdbcTemplate.queryForObject("select * from Book where id = ?", new BeanPropertyRowMapper<>(BookVO.class), id);
     }
 
+    private String prepareQueryById(DataFetchingEnvironment environment) {
+        return "SELECT " + extractSelectedFields(environment) + " FROM BOOK WHERE ID = ? ";
+    }
+
+    private String extractSelectedFields(DataFetchingEnvironment env) {
+        return env.getSelectionSet().getImmediateFields().stream().map(selectedField ->
+                selectedField.getName()).collect(Collectors.joining(","));
+    }
 }
