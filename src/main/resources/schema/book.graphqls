@@ -1,4 +1,7 @@
+#extended-scalar dependency
 scalar Date
+#Custome scalar - name is weired because of extended-scaler is already having same
+scalar DateTime_Scalar
 
 extend type QueryResolver {
     bookById(id:ID): Book
@@ -17,7 +20,9 @@ type Book{
     genre:String
     publisher:String
     publishDate:Date
+    createdTime :DateTime_Scalar
 }
+
 
 input BookUpdateInput{
     id:ID!
