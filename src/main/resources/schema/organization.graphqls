@@ -1,3 +1,4 @@
+
 extend type QueryResolver {
     organizations: [Organization]
     organization(id: ID!): Organization!

@@ -1,3 +1,5 @@
+scalar Date
+
 extend type QueryResolver {
     bookById(id:ID): Book
     books: [Book]
@@ -14,6 +16,7 @@ type Book{
     title:String
     genre:String
     publisher:String
+    publishDate:Date
 }
 
 input BookUpdateInput{
