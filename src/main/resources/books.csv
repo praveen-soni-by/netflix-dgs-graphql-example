@@ -1,5 +1,5 @@
-Id,Title,Genre,Publisher
-1,Fundamentals of Wavelets,signal_processing,Wiley
-2,Data Smart,data_science,Wiley
-3,God Created the Integers Superfreakonomics,mathematics,Penguin
-4,Superfreakonomics,economics,HarperCollins
+Id,Title,Genre,Publisher,publishDate
+1,Fundamentals of Wavelets,signal_processing,Wiley,2012-02-02
+2,Data Smart,data_science,Wiley,2012-02-02
+3,God Created the Integers Superfreakonomics,mathematics,Penguin,2012-02-02
+4,Superfreakonomics,economics,HarperCollins,2012-02-02

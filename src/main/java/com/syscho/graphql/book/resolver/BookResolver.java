@@ -3,18 +3,18 @@ package com.syscho.graphql.book.resolver;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.InputArgument;
-import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import com.syscho.graphql.book.BookDO;
 import com.syscho.graphql.book.BookRepository;
 import com.syscho.graphql.book.BookVO;
+import com.syscho.graphql.exception.NoDataFoundException;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -42,7 +42,12 @@ public class BookResolver {
     public BookVO getById(@InputArgument("id") String id, DataFetchingEnvironment environment) {
         String query = prepareQueryById(environment);
         log.info("query : {}", query);
-        return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(BookVO.class), new Object[]{id});
+        try {
+            return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(BookVO.class), new Object[]{id});
+
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NoDataFoundException(id);
+        }
     }
 
     private String prepareQueryById(DataFetchingEnvironment environment) {
@@ -78,20 +83,4 @@ public class BookResolver {
         return jdbcTemplate.queryForObject("select * from Book where id = ?", new BeanPropertyRowMapper<>(BookVO.class), id);
     }
 
-
-    private BookVO convertToDto(BookDO bookDO) {
-        BookVO bookVO = new BookVO();
-        BeanUtils.copyProperties(bookDO, bookVO);
-        return bookVO;
-    }
-
-    private List<BookVO> convertToDto(List<BookDO> list) {
-        List<BookVO> books = new ArrayList<>();
-        list.forEach(bookDO -> {
-            BookVO bookVO = new BookVO();
-            BeanUtils.copyProperties(bookDO, bookVO);
-            books.add(bookVO);
-        });
-        return books;
-    }
 }

@@ -1,3 +1,5 @@
+#DGS configuration refer :https://netflix.github.io/dgs/configuration/
+
 spring:
   application:
     name: netflix-dgs-graphql-example
@@ -26,3 +28,19 @@ spring:
 
 jsonplaceholder:
   url: http://localhost:1080
+
+
+
+#Enable custom exception handler
+exception:
+  custom:
+    enable: false
+
+
+#DGS Extended Scalars: graphql-dgs-extended-scalars¶
+dgs:
+  graphql:
+    extensions:
+      scalars:
+        time-dates:
+          enabled: true
