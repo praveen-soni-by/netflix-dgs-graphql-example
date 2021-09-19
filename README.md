@@ -9,6 +9,9 @@ https://netflix.github.io/dgs/
 - @DgsData(parentType = "Mutation", field = "addRating")
 - @DgsScalar
 
+# Extended scalar
+- https://netflix.github.io/dgs/configuration/
+
 
 
 
