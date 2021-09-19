@@ -4,24 +4,17 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.syscho.graphql.company.domain.Department;
 import com.syscho.graphql.company.domain.Organization;
-import com.syscho.graphql.company.model.DepartmentInput;
 import com.syscho.graphql.company.repository.DepartmentRepository;
 import com.syscho.graphql.company.repository.OrganizationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.syscho.graphql.generated.types.DepartmentInput;
+import lombok.RequiredArgsConstructor;
 
 @DgsComponent
+@RequiredArgsConstructor
 public class DepartmentMutation {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    DepartmentRepository departmentRepository;
-    OrganizationRepository organizationRepository;
-
-    DepartmentMutation(DepartmentRepository departmentRepository, OrganizationRepository organizationRepository) {
-        this.departmentRepository = departmentRepository;
-        this.organizationRepository = organizationRepository;
-    }
+    private final DepartmentRepository departmentRepository;
+    private final OrganizationRepository organizationRepository;
 
     @DgsData(parentType = "MutationResolver", field = "newDepartment")
     public Department newDepartment(DepartmentInput departmentInput) {
