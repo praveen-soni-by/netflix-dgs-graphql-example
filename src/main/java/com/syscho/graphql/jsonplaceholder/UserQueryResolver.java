@@ -2,11 +2,11 @@ package com.syscho.graphql.jsonplaceholder;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
+import com.syscho.graphql.generated.types.Album;
+import com.syscho.graphql.generated.types.MasterData;
+import com.syscho.graphql.generated.types.Post;
+import com.syscho.graphql.generated.types.UserInfo;
 import com.syscho.graphql.jsonplaceholder.client.JsonPlaceHolderClient;
-import com.syscho.graphql.jsonplaceholder.jsonPlaceholder.Album;
-import com.syscho.graphql.jsonplaceholder.jsonPlaceholder.MasterData;
-import com.syscho.graphql.jsonplaceholder.jsonPlaceholder.Post;
-import com.syscho.graphql.jsonplaceholder.jsonPlaceholder.UserInfo;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.client.WebClientRequestException;

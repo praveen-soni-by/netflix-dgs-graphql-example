@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.5.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "com.netflix.dgs.codegen" version "5.0.6"
 
 }
 
@@ -27,6 +28,18 @@ dependencies {
     implementation 'com.netflix.graphql.dgs:graphql-dgs-extended-scalars:4.8.0'
 
 }
+apply plugin: 'com.netflix.dgs.codegen'
+
+generateJava {
+    schemaPaths = ["${projectDir}/src/main/resources/schema"] // List of directories containing schema files
+    packageName = ' com.syscho.graphql.generated' // The package name to use to generate sources
+    generateClient = true // Enable generating the type safe query API
+    typeMapping = ["DateTime_Scalar": "java.time.LocalDateTime"]
+
+}
+
+sourceSets.main.java.srcDirs = ['build/generated', 'src/main/java']
+
 
 test {
     useJUnitPlatform()

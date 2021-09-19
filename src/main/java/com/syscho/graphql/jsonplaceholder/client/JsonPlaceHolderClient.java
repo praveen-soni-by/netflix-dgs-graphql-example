@@ -1,8 +1,8 @@
 package com.syscho.graphql.jsonplaceholder.client;
 
-import com.syscho.graphql.jsonplaceholder.jsonPlaceholder.Album;
-import com.syscho.graphql.jsonplaceholder.jsonPlaceholder.Post;
-import com.syscho.graphql.jsonplaceholder.jsonPlaceholder.UserInfo;
+import com.syscho.graphql.generated.types.Album;
+import com.syscho.graphql.generated.types.Post;
+import com.syscho.graphql.generated.types.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -53,11 +53,11 @@ public class JsonPlaceHolderClient {
         return callUsers();
     }
 
-    public Mono<List<Post>> getPosts() {
+    public Mono<List<com.syscho.graphql.generated.types.Post>> getPosts() {
         return callPosts();
     }
 
-    public Mono<List<Album>> getAlbums() {
+    public Mono<List<com.syscho.graphql.generated.types.Album>> getAlbums() {
         return callAlbum();
     }
 
