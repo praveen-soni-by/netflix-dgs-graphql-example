@@ -1,0 +1,33 @@
+query GET_ALL_BOOKS {
+    books {
+        id
+        title
+        genre
+        status
+        isAvailable
+        publishDate
+        createdTime
+        publisher
+    }
+}
+
+query GET_BOOK_BY_ID($id: ID) {
+
+    bookById(id:$id){
+        title
+        publishDate
+        createdTime
+        publisher
+    }
+}
+
+mutation ADD_BOOK{
+    addBook(request:{
+        title:"The hellow ween"
+        publisher:"Soni"
+        genre:"Horror"
+    }){
+        id
+    }
+
+}

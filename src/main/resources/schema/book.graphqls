@@ -4,8 +4,11 @@ scalar Date
 scalar DateTime_Scalar
 
 extend type QueryResolver {
+    # Used to Fetch book based on ID
     bookById(id:ID): Book
+    # Used to Fetch all books
     books: [Book]
+    # Used to Fetch book based on ID from context
     bookByIdContext(id:ID):Book
 }
 
@@ -42,4 +45,6 @@ input BookInput{
     title:String
     genre:String
     publisher:String
+    publishDate:Date
+    status:Status
 }

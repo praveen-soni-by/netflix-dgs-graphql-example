@@ -44,3 +44,31 @@ dgs:
       scalars:
         time-dates:
           enabled: true
+voyager:
+  enabled: true
+  basePath: /
+  mapping: /voyager
+  endpoint: /graphql
+  cdn:
+    enabled: false
+    version: latest
+  pageTitle: Voyager
+  displayOptions:
+    skipRelay: true
+    skipDeprecated: true
+    rootType: Query
+    sortByAlphabet: false
+    showLeafFields: true
+    hideRoot: false
+  hideDocs: false
+  hideSettings: false
+
+graphql:
+  servlet:
+  playground:
+    tabs:
+      - name: Book sample query
+        query: classpath:playground/book-query.graphql
+        variables: classpath:playground/book-query-variable.json
+    cdn:
+      enabled: true
