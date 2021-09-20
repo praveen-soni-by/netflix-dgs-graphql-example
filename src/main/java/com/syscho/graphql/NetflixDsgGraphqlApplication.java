@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "com.syscho.graphql.company.repository",
         "com.syscho.graphql.book"
 })
-
 public class NetflixDsgGraphqlApplication {
 
     public static void main(String[] args) {

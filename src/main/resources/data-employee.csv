@@ -1,4 +1,4 @@
-id,firstname,lastname,position,salary,age,departmentid,organizationid
+id,FIRST_NAME,LAST_NAME,position,salary,age,department_id,ORGANIZATION_ID
 1,Leighton,Eddison,Web Developer IV,63216,39,2,3
 2,Abelard,Zukerman,Pharmacist,87690,27,2,4
 3,Elizabeth,Beck,Legal Assistant,80389,30,4,2
