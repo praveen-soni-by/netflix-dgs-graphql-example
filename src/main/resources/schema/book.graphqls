@@ -6,6 +6,7 @@ scalar DateTime_Scalar
 extend type QueryResolver {
     bookById(id:ID): Book
     books: [Book]
+    bookByIdContext(id:ID):Book
 }
 
 extend type MutationResolver {

@@ -11,7 +11,8 @@ import graphql.execution.DataFetcherExceptionHandlerResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
+
+import java.util.concurrent.CompletionException;
 
 @Component
 @Slf4j
@@ -22,7 +23,7 @@ public class CustomGraphQLErrorHandler implements DataFetcherExceptionHandler {
     @Override
     public DataFetcherExceptionHandlerResult onException(DataFetcherExceptionHandlerParameters handlerParameters) {
         //Handling graphql exception
-        log.error("DataFetcherExceptionHandlerResult : error ", handlerParameters);
+        log.error("DataFetcherExceptionHandlerResult : error ", handlerParameters.getException());
 
         if (handlerParameters.getException() instanceof NoDataFoundException) {
             GraphQLError graphqlError = TypedGraphQLError.newBuilder().message(handlerParameters.getException().getMessage())
@@ -31,7 +32,7 @@ public class CustomGraphQLErrorHandler implements DataFetcherExceptionHandler {
             return buildResponse(graphqlError);
         }
         //Handling spring/java exception
-        else if (handlerParameters.getException() instanceof WebClientRequestException) {
+        else if (handlerParameters.getException() instanceof CompletionException) {
             GraphQLError graphqlError = TypedGraphQLError.newBuilder().message("service is down try some  other time")
                     .errorType(ErrorType.INTERNAL)
                     .path(handlerParameters.getPath()).build();

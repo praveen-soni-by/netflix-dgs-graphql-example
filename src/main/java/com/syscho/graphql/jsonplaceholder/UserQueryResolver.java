@@ -34,11 +34,7 @@ public class UserQueryResolver {
     @DgsData(parentType = "QueryResolver", field = "findAllPosts")
     public CompletableFuture<List<Post>> findAllPosts() {
         return CompletableFuture.supplyAsync(() -> {
-            try {
                 return jsonPlaceHolderClient.getPosts().block();
-            } catch (WebClientRequestException exception) {
-                throw new RuntimeException("Service is down , try after some time");
-            }
         }, executorService);
 
     }

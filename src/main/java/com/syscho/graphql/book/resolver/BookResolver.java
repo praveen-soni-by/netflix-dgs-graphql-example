@@ -3,8 +3,11 @@ package com.syscho.graphql.book.resolver;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.InputArgument;
+import com.netflix.graphql.dgs.context.DgsContext;
+import com.netflix.graphql.dgs.context.DgsCustomContextBuilder;
 import com.syscho.graphql.book.BookDO;
 import com.syscho.graphql.book.BookRepository;
+import com.syscho.graphql.context.CustomContext;
 import com.syscho.graphql.exception.NoDataFoundException;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import com.syscho.graphql.generated.types.Book;
 
 @DgsComponent
@@ -31,11 +35,20 @@ public class BookResolver {
     public List<Book> getBooks(DataFetchingEnvironment environment) {
         String query = "SELECT " + extractSelectedFields(environment) + " FROM BOOK ";
         log.info("query : {}", query);
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Book.class));
+        List<Book> books = jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Book.class));
+
+        setContext(environment, books);
+        return books;
+    }
+
+    private void setContext(DataFetchingEnvironment environment, List<Book> books) {
+        CustomContext context = DgsContext.getCustomContext(environment);
+        context.getContext().addAll(books);
     }
 
     @DgsData(parentType = "QueryResolver", field = "bookById")
-    public Book getById(@InputArgument("id") String id, DataFetchingEnvironment environment) {
+    public Book getBook(@InputArgument("id") String id, DataFetchingEnvironment environment) {
+        CustomContext context = DgsContext.getCustomContext(environment);
         String query = prepareQueryById(environment);
         log.info("query : {}", query);
         try {
@@ -44,6 +57,13 @@ public class BookResolver {
         } catch (EmptyResultDataAccessException exception) {
             throw new NoDataFoundException(id);
         }
+    }
+
+    @DgsData(parentType = "QueryResolver", field = "bookByIdContext")
+    public Book getBookFromContext(@InputArgument("id") String id, DataFetchingEnvironment environment) {
+        CustomContext context = DgsContext.getCustomContext(environment);
+        return context.getContext().stream().filter(book -> book.getId().equalsIgnoreCase(id)).findFirst()
+                .orElseThrow(() -> new NoDataFoundException(id));
     }
 
     @DgsData(parentType = "MutationResolver", field = "addBook")

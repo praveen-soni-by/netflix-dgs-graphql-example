@@ -34,7 +34,7 @@ jsonplaceholder:
 #Enable custom exception handler
 exception:
   custom:
-    enable: false
+    enable: true
 
 
 #DGS Extended Scalars: graphql-dgs-extended-scalars¶
