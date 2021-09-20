@@ -22,5 +22,11 @@ public class BookDO {
     private String publisher;
     private LocalDate publishDate;
     private LocalDateTime createdTime;
+    private Status status;
+    private boolean isAvailable;
+}
 
+enum Status {
+    RELEASE,
+    NO_RELEASE
 }
