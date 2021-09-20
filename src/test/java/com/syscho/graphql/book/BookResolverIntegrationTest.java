@@ -7,12 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-
+//Reference :https://github.com/Netflix/dgs-examples-java/blob/main/src/test/java/com/example/demo/ShowsDatafetcherTest.java#L61
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = NetflixDsgGraphqlApplication.class)
 public class BookResolverIntegrationTest {
 
     @Autowired
     private DgsQueryExecutor dgsQueryExecutor;
+
 
     @Test
     void executeAndExtractJsonPathTest() {
@@ -35,4 +36,5 @@ public class BookResolverIntegrationTest {
         Assertions.assertEquals(book.getTitle(), "Fundamentals of Wavelets");
 
     }
+
 }

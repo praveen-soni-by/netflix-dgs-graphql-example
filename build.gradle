@@ -31,12 +31,16 @@ dependencies {
 }
 apply plugin: 'com.netflix.dgs.codegen'
 
+//https://netflix.github.io/dgs/generating-code-from-schema/
 generateJava {
     schemaPaths = ["${projectDir}/src/main/resources/schema"] // List of directories containing schema files
     packageName = ' com.syscho.graphql.generated' // The package name to use to generate sources
     generateClient = true // Enable generating the type safe query API
     typeMapping = ["DateTime_Scalar": "java.time.LocalDateTime"]
-
+    generateInterfaces = false
+    skipEntityQueries = true
+    maxProjectionDepth = 4
+    shortProjectionNames = true
 }
 
 sourceSets.main.java.srcDirs = ['build/generated', 'src/main/java']
