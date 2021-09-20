@@ -22,8 +22,14 @@ type Book{
     publisher:String
     publishDate:Date
     createdTime :DateTime_Scalar
+    status:Status
+    isAvailable:Boolean
 }
 
+enum Status{
+    RELEASE
+    NO_RELEASE
+}
 
 input BookUpdateInput{
     id:ID!
