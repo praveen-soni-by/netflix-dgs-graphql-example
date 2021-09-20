@@ -28,6 +28,9 @@ dependencies {
     //extended scalar support
     implementation 'com.netflix.graphql.dgs:graphql-dgs-extended-scalars:4.8.0'
 
+    implementation 'com.graphql-java-kickstart:voyager-spring-boot-starter:11.0.0'
+    implementation group: 'com.graphql-java-kickstart', name: 'playground-spring-boot-starter', version: '5.10.0'
+
 }
 apply plugin: 'com.netflix.dgs.codegen'
 

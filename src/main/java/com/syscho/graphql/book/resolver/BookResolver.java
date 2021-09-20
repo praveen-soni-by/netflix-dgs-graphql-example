@@ -9,6 +9,7 @@ import com.syscho.graphql.book.BookDO;
 import com.syscho.graphql.book.BookRepository;
 import com.syscho.graphql.context.CustomContext;
 import com.syscho.graphql.exception.NoDataFoundException;
+import com.syscho.graphql.generated.types.Status;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -69,6 +71,9 @@ public class BookResolver {
     @DgsData(parentType = "MutationResolver", field = "addBook")
     public Book addBook(@InputArgument("request") Book bookVO) {
         BookDO bookDO = new BookDO();
+        bookVO.setCreatedTime(LocalDateTime.now());
+        bookVO.setIsAvailable(true);
+        bookVO.setStatus(Status.RELEASE);
         bookVO.setId(UUID.randomUUID().toString());
         BeanUtils.copyProperties(bookVO, bookDO);
         bookRepository.save(bookDO);
