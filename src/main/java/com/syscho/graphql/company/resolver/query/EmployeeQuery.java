@@ -44,11 +44,9 @@ public class EmployeeQuery {
 
 
     @DgsData(parentType = "QueryResolver", field = "employee")
-    public Employee findById(@InputArgument("id") Integer id, DataFetchingEnvironment env) {
+    public Employee findById(@InputArgument("id") String id, DataFetchingEnvironment env) {
         String query = "SELECT " + extractSelectedFields(env) + " FROM EMPLOYEE WHERE ID = " + id;
         return jdbcTemplate.queryForObject(query, Employee.class);
-
-        //   return repository.findById(id).orElseThrow(DgsEntityNotFoundException::new);
     }
 
     @DgsData(parentType = "QueryResolver", field = "employeesWithFilter")

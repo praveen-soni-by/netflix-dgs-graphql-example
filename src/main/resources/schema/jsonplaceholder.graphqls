@@ -1,9 +1,8 @@
 extend type QueryResolver {
-    findAllUsers: [UserInfo]
-    findAllPosts: [Post]
-    findAllAlbums: [Album]
-    findAll: MasterData
-    findAllWithFilter: MasterData
+    users: [UserInfo]
+    posts: [Post]
+    albums: [Album]
+    masterData: MasterData
 }
 
 type MasterData {
