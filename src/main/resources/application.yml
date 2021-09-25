@@ -70,5 +70,8 @@ graphql:
       - name: Book sample query
         query: classpath:playground/book-query.graphql
         variables: classpath:playground/book-query-variable.json
+      - name: JsonPlace holder sample query
+        query: classpath:playground/jsonplaceholder-query.graphql
+
     cdn:
       enabled: true
