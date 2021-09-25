@@ -1,0 +1,15 @@
+query MASTER_DATA_NESTED_FETCHER {
+    masterData {
+        users {
+            id
+            name
+        }
+        posts {
+            userId
+            title
+        }
+        albums {
+            userId
+        }
+    }
+}
