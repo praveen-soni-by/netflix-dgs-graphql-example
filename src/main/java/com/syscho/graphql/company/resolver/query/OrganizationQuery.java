@@ -22,7 +22,7 @@ public class OrganizationQuery {
     }
 
     @DgsData(parentType = "QueryResolver", field = "organization")
-    public Organization findById(@InputArgument("id") Integer id) {
-        return repository.findById(id).orElseThrow(DgsEntityNotFoundException::new);
+    public Organization findById(@InputArgument(name = "id") String id) {
+        return repository.findById(Integer.parseInt(id)).orElseThrow(DgsEntityNotFoundException::new);
     }
 }

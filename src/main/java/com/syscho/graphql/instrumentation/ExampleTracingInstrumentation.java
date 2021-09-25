@@ -1,3 +1,4 @@
+/*
 package com.syscho.graphql.instrumentation;
 
 import graphql.ExecutionResult;
@@ -79,4 +80,4 @@ public class ExampleTracingInstrumentation extends SimpleInstrumentation {
     static class TracingState implements InstrumentationState {
         long startTime;
     }
-}
+}*/
