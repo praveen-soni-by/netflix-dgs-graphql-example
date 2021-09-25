@@ -5,12 +5,10 @@ import com.netflix.graphql.dgs.DgsData;
 import com.syscho.graphql.generated.types.Album;
 import com.syscho.graphql.generated.types.MasterData;
 import com.syscho.graphql.generated.types.Post;
-import com.syscho.graphql.generated.types.UserInfo;
 import com.syscho.graphql.jsonplaceholder.client.JsonPlaceHolderClient;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
-import reactor.core.publisher.Mono;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -20,68 +18,54 @@ import java.util.concurrent.Executors;
 
 @DgsComponent
 @RequiredArgsConstructor
+@Slf4j
 public class UserQueryResolver {
 
     private final JsonPlaceHolderClient jsonPlaceHolderClient;
     private final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    @DgsData(parentType = "QueryResolver", field = "findAllUsers")
 
-    public List<UserInfo> findAllUsers() {
-        return jsonPlaceHolderClient.getUsers().block();
-    }
-
-    @DgsData(parentType = "QueryResolver", field = "findAllPosts")
-    public CompletableFuture<List<Post>> findAllPosts() {
+    @DgsData(parentType = "QueryResolver", field = "posts")
+    public CompletableFuture<List<Post>> getPosts() {
         return CompletableFuture.supplyAsync(() -> {
-                return jsonPlaceHolderClient.getPosts().block();
+            return jsonPlaceHolderClient.getPosts().block();
         }, executorService);
 
     }
 
-    @DgsData(parentType = "QueryResolver", field = "findAllAlbums")
-    public List<Album> findAllAlbums() {
-        return jsonPlaceHolderClient.getAlbums().block();
+    @DgsData(parentType = "QueryResolver", field = "albums")
+    public CompletableFuture<List<Album>> getAlbums() {
+        return jsonPlaceHolderClient.getAlbums().toFuture();
     }
 
-    @DgsData(parentType = "QueryResolver", field = "findAll")
-    public MasterData findAll() {
-        MasterData masterData = new MasterData();
-        Mono<List<UserInfo>> users = jsonPlaceHolderClient.getUsers();
-        Mono<List<Album>> albums = jsonPlaceHolderClient.getAlbums();
-        Mono<List<Post>> posts = jsonPlaceHolderClient.getPosts();
-        return Mono.zip(users, albums, posts)
-                .map(objects -> {
-                    masterData.setUsers(objects.getT1());
-                    masterData.setAlbums(objects.getT2());
-                    masterData.setPosts(objects.getT3());
-                    return masterData;
-                }).block();
+    @DgsData(parentType = "QueryResolver", field = "users")
+    public CompletableFuture<List<com.syscho.graphql.generated.types.UserInfo>> getUsers() {
+        return jsonPlaceHolderClient.getUsers().toFuture();
     }
 
-
-    @DgsData(parentType = "QueryResolver", field = "findAllWithFilter")
-    public MasterData findAllWithFilter(DataFetchingEnvironment environment) {
+    @DgsData(parentType = "QueryResolver", field = "masterData")
+    public MasterData fetchAll(DataFetchingEnvironment environment) {
         MasterData masterData = new MasterData();
-        Mono<List<UserInfo>> users = null;
-        Mono<List<Post>> posts = null;
-        Mono<List<Album>> albums = null;
-
-        if (environment.getSelectionSet().contains("users")) {
-            users = jsonPlaceHolderClient.getUsers();
-        }
-        if (environment.getSelectionSet().contains("posts")) {
-            posts = jsonPlaceHolderClient.getPosts();
-        }
-        if (environment.getSelectionSet().contains("albums")) {
-            albums = jsonPlaceHolderClient.getAlbums();
-        }
-
-        if (null != users) masterData.setUsers(users.block());
-        if (null != posts) masterData.setPosts(posts.block());
-        if (null != albums) masterData.setAlbums(albums.block());
-
         return masterData;
     }
+
+    @DgsData(parentType = "MasterData", field = "users")
+    public CompletableFuture<List<com.syscho.graphql.generated.types.UserInfo>> postsUserFetcher() {
+        log.info("executing ::postsUserFetcher::");
+        return jsonPlaceHolderClient.getUsers().toFuture();
+    }
+
+    @DgsData(parentType = "MasterData", field = "posts")
+    public CompletableFuture<List<com.syscho.graphql.generated.types.Post>> postsNestedFetcher() {
+        log.info("executing ::postsNestedFetcher::");
+        return jsonPlaceHolderClient.getPosts().toFuture();
+    }
+
+    @DgsData(parentType = "MasterData", field = "albums")
+    public CompletableFuture<List<com.syscho.graphql.generated.types.Album>> albumNestedFetcher() {
+        log.info("executing ::albumNestedFetcher::");
+        return jsonPlaceHolderClient.getAlbums().toFuture();
+    }
+
 }
 
