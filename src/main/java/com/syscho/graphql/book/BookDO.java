@@ -2,11 +2,7 @@ package com.syscho.graphql.book;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,11 +18,11 @@ public class BookDO {
     private String publisher;
     private LocalDate publishDate;
     private LocalDateTime createdTime;
-    private Status status;
+    private StatusEnum status;
     private boolean isAvailable;
 }
 
-enum Status {
+enum StatusEnum {
     RELEASE,
     NO_RELEASE
 }

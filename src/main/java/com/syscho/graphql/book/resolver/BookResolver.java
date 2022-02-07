@@ -4,12 +4,11 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.context.DgsContext;
-import com.netflix.graphql.dgs.context.DgsCustomContextBuilder;
 import com.syscho.graphql.book.BookDO;
 import com.syscho.graphql.book.BookRepository;
 import com.syscho.graphql.context.CustomContext;
 import com.syscho.graphql.exception.NoDataFoundException;
-import com.syscho.graphql.generated.types.Status;
+import com.syscho.graphql.generated.types.Book;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import com.syscho.graphql.generated.types.Book;
 
 @DgsComponent
 @RequiredArgsConstructor
@@ -73,7 +70,7 @@ public class BookResolver {
         BookDO bookDO = new BookDO();
         bookVO.setCreatedTime(LocalDateTime.now());
         bookVO.setIsAvailable(true);
-        bookVO.setStatus(Status.RELEASE);
+        bookVO.setStatus("RELEASE");
         bookVO.setId(UUID.randomUUID().toString());
         BeanUtils.copyProperties(bookVO, bookDO);
         bookRepository.save(bookDO);
